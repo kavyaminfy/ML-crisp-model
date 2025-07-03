@@ -5,7 +5,7 @@ from evidently.metric_preset import DataDriftPreset
 from evidently.metrics import ColumnDriftMetric
 from sklearn.model_selection import train_test_split
 
-# 📁 Load datasets
+#  Load datasets
 reference_data_path = r"C:\Users\Minfy.DESKTOP-81ME0ME\Downloads\dataset loan.csv"
 current_data_path = r"C:\Users\Minfy.DESKTOP-81ME0ME\Downloads\New Customer Bank_Personal_Loan.csv"
 
@@ -15,7 +15,7 @@ reference_labels = reference_full_df["Personal Loan"]
 
 current_df = pd.read_csv(current_data_path)
 
-# 📁 Set base experiment
+#  Set base experiment
 mlflow.set_experiment("Drift Metrics Analysis")
 
 def log_data_drift_metrics(reference_df, current_df, run_name):
@@ -42,11 +42,11 @@ def log_data_drift_metrics(reference_df, current_df, run_name):
                     score = stats.get("drift_score", 0)
                     mlflow.log_metric(f"drift_{feature}", score)
 
-# 🔀 Train-test split
+#  Train-test split
 X_train, X_test, y_train, y_test = train_test_split(reference_features, reference_labels, test_size=0.2, random_state=42)
 
-# 📊 Run 1: Train vs Test
+#  Run 1: Train vs Test
 log_data_drift_metrics(reference_df=X_train, current_df=X_test, run_name="Train_vs_Test_UnderstandingOf_DataDrift")
 
-# 📊 Run 2: Historical vs New Customers
+#  Run 2: Historical vs New Customers
 log_data_drift_metrics(reference_df=reference_features, current_df=current_df, run_name="Historical_vs_New_DataDrift_Understanding")
